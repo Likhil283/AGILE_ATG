@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Input Management - Timetable Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .output {
+      background: #eef3f9;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Input Management - Timetable Generator</h1>
+  <div class="container">
+    <label>Subjects (comma separated):</label>
+    <input type="text" id="subjects" placeholder="e.g. Math, Physics, Chemistry" />
+
+    <label>Faculty (comma separated):</label>
+    <input type="text" id="faculty" placeholder="e.g. Mr. A, Ms. B, Mr. C" />
+
+    <label>Rooms (comma separated):</label>
+    <input type="text" id="rooms" placeholder="e.g. Room 101, Room 102, Room 103" />
+
+    <label>Days:</label>
+    <select id="days" multiple>
+      <option>Monday</option>
+      <option>Tuesday</option>
+      <option>Wednesday</option>
+      <option>Thursday</option>
+      <option>Friday</option>
+    </select>
+
+    <label>Time Slots (comma separated):</label>
+    <input type="text" id="timeslots" placeholder="e.g. 9-10, 10-11, 11-12, 1-2" />
+
+    <button onclick="saveInputs()">Save Inputs</button>
+
+    <div id="output" class="output"></div>
+  </div>
+
+  <script>
+    function saveInputs() {
+      const subjects = document.getElementById('subjects').value.split(',').map(s => s.trim()).filter(Boolean);
+      const faculty = document.getElementById('faculty').value.split(',').map(s => s.trim()).filter(Boolean);
+      const rooms = document.getElementById('rooms').value.split(',').map(s => s.trim()).filter(Boolean);
+      const timeslots = document.getElementById('timeslots').value.split(',').map(s => s.trim()).filter(Boolean);
+      const days = Array.from(document.getElementById('days').selectedOptions).map(o => o.value);
+
+      if (!subjects.length || !faculty.length || !rooms.length || !days.length || !timeslots.length) {
+        alert('Please fill all fields');
+        return;
+      }
+
+      const data = {
+        subjects,
+        faculty,
+        rooms,
+        days,
+        timeslots
+      };
+
+      document.getElementById('output').textContent = 
+        'Input Data Saved:\n\n' + JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
